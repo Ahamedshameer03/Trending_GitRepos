@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    tools:context=".CardView">-->
+
+<!--    &lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:text="@string/hello_blank_fragment" />-->
+
+<!--</FrameLayout>-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="100sp"
+                android:layout_height="match_parent"
+                android:src="@color/black"
+                android:scaleType="fitStart">
+
+            </ImageView> // Pro pic
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="3sp"
+                    android:paddingBottom="5sp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/generated_icon"
+                        android:drawablePadding="10sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:paddingLeft="10sp"
+                        android:text="Author Name"
+                        android:textColor="@color/cardview_dark_background"
+                        android:textSize="15sp">
+
+                    </TextView>//Author Name
+
+                </LinearLayout>// 1L
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="5sp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:paddingLeft="15sp"
+                        android:text="Repo Title"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold">
+
+                    </TextView> // Repo title
+
+                </LinearLayout>// 2L
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="5sp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:paddingLeft="15sp"
+                        android:text="Repo Description"
+                        android:textColor="@color/cardview_dark_background"
+                        android:textSize="15sp">
+
+                    </TextView> // Repo description
+
+                </LinearLayout>// 3L
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/language_icon"
+                            android:drawablePadding="10sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:paddingLeft="10sp"
+                            android:text="Language"
+                            android:textSize="15sp">
+
+                        </TextView>// Language
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:drawableLeft="@drawable/star_icon"
+                            android:drawablePadding="10sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:gravity="right"
+                            android:paddingLeft="90sp"
+                            android:text="1000"
+                            android:textSize="15sp">
+
+                        </TextView>// Star count
+
+                    </LinearLayout>// 4L Sep 1
+
+                </LinearLayout>// 4L
+
+            </LinearLayout> // Content
+
+        </LinearLayout>
+
+
+
+    // Main
+    </LinearLayout>
