@@ -13,8 +13,12 @@
 
 <!--</FrameLayout>-->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -28,7 +32,8 @@
                 android:layout_width="100sp"
                 android:layout_height="match_parent"
                 android:src="@color/black"
-                android:scaleType="fitStart">
+                android:scaleType="fitStart"
+                android:id="@+id/avatar">
 
             </ImageView> // Pro pic
 
@@ -53,7 +58,8 @@
                         android:paddingLeft="10sp"
                         android:text="Author Name"
                         android:textColor="@color/cardview_dark_background"
-                        android:textSize="15sp">
+                        android:textSize="15sp"
+                        android:id="@+id/author">
 
                     </TextView>//Author Name
 
@@ -72,7 +78,8 @@
                         android:text="Repo Title"
                         android:textColor="@color/black"
                         android:textSize="15sp"
-                        android:textStyle="bold">
+                        android:textStyle="bold"
+                        android:id="@+id/name">
 
                     </TextView> // Repo title
 
@@ -90,7 +97,8 @@
                         android:paddingLeft="15sp"
                         android:text="Repo Description"
                         android:textColor="@color/cardview_dark_background"
-                        android:textSize="15sp">
+                        android:textSize="15sp"
+                        android:id="@+id/description">
 
                     </TextView> // Repo description
 
@@ -114,7 +122,8 @@
                             android:fontFamily="sans-serif-medium"
                             android:paddingLeft="10sp"
                             android:text="Language"
-                            android:textSize="15sp">
+                            android:textSize="15sp"
+                            android:id="@+id/language">
 
                         </TextView>// Language
 
@@ -127,7 +136,8 @@
                             android:gravity="right"
                             android:paddingLeft="90sp"
                             android:text="1000"
-                            android:textSize="15sp">
+                            android:textSize="15sp"
+                            android:id="@+id/stars">
 
                         </TextView>// Star count
 
@@ -139,7 +149,10 @@
 
         </LinearLayout>
 
+    </LinearLayout>
+
+
 
 
     // Main
-    </LinearLayout>
+</androidx.cardview.widget.CardView>
