@@ -1,22 +1,44 @@
 package com.example.trending_github_repositories;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RepoModel {
-    String author, name, description, language, languageColor, imageUrl, username, url;
+    String author, name, description, language, languageColor, avatar, username, url;
     int stars, forks, currentPeriodStars;
-    //List<BuildBy> buildBy;
 
-    /*private class BuildBy {
-        public BuildBy(String href, String avatar, String username) {
-            this.href = href;
-            this.avatar = avatar;
-            this.username = username;
-        }
+    ArrayList<BuiltBy> builtBy = new ArrayList<BuiltBy>();
 
-        String href, avatar, username;
-    }*/
+    public RepoModel(String author,
+                     String name,
+                     String description,
+                     String language,
+                     String languageColor,
+                     String avatar,
+                     String username,
+                     String url,
+                     int stars,
+                     int forks,
+                     int currentPeriodStars,
+                     ArrayList<BuiltBy> builtBy) {
+        this.author = author;
+        this.name = name;
+        this.description = description;
+        this.language = language;
+        this.languageColor = languageColor;
+        this.avatar = avatar;
+        this.username = username;
+        this.url = url;
+        this.stars = stars;
+        this.forks = forks;
+        this.currentPeriodStars = currentPeriodStars;
+
+        // BuiltBy
+        this.builtBy = builtBy;
+        /*this.builtBy = new BuiltBy[builtBy.length];
+        for(int i=0;i< builtBy.length;i++){
+            this.builtBy[i] = builtBy[i];
+        }*/
+    }
 
     public String getAuthor() {
         return author;
@@ -58,12 +80,12 @@ public class RepoModel {
         this.languageColor = languageColor;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getUsername() {
@@ -106,42 +128,36 @@ public class RepoModel {
         this.currentPeriodStars = currentPeriodStars;
     }
 
-    /*public List<BuildBy> getBuildBy() {
-        return buildBy;
+    public ArrayList<BuiltBy> getBuiltBy() {
+        return builtBy;
     }
 
-    public void setBuildBy(BuildBy buildBy) {
-        this.buildBy.add(buildBy);
-    }*/
-
-    public RepoModel(String author, String name, String description, String language, String languageColor, String imageUrl, String username, String url, int stars, int forks, int currentPeriodStars) {
-        this.author = author;
-        this.name = name;
-        this.description = description;
-        this.language = language;
-        this.languageColor = languageColor;
-        this.imageUrl = imageUrl;
-        this.username = username;
-        this.url = url;
-        this.stars = stars;
-        this.forks = forks;
-        this.currentPeriodStars = currentPeriodStars;
-        //this.buildBy.add(buildBy);
+    public void setBuiltBy(ArrayList<BuiltBy> builtBy) {
+        this.builtBy = builtBy;
     }
+
+
     public RepoModel() {
         author = "author";
         name = "name";
         description = "description";
         language = "language";
         languageColor = "languageColor";
-        imageUrl = "imageUrl";
+        avatar = "imageUrl";
         username = "username";
         url = "url";
         stars = 100;
         forks = 200;
         currentPeriodStars = 150;
-        //buildBy.add(new BuildBy("buildByHref","buildByAvatar", "buildByUsername"));
 
+        // builtBy
+        BuiltBy builtBy = new BuiltBy("href", "avatar", "username");
+        this.builtBy.add(builtBy);
+        /*builtBy = new BuiltBy[1];
+        builtBy[0].avatar = "avatar";
+        builtBy[0].href = "href";
+        builtBy[0].username = "username";*/
     }
+
 
 }
