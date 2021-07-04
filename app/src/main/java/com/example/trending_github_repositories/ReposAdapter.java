@@ -30,7 +30,7 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
     public ReposAdapter(Context context, List<RepoModel> data) {
         this.context = context;
         this.data = data;
-        dataList = data;
+        dataList = new ArrayList<>(this.data);
     }
 
     @Override
@@ -82,28 +82,38 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
-            List<RepoModel> filteredList = new ArrayList<>();
+            Log.d("INSIDE", "PERF");
+            List<RepoModel> filteredList = new ArrayList<RepoModel>();
 
             for(RepoModel repoModel : dataList){
-                if(repoModel.getAuthor().toLowerCase().contains(charSequence.toString().toLowerCase())){
-                    filteredList.add(repoModel);
-                    Log.d("AUTHOR", repoModel.getAuthor().toLowerCase());
-                    Log.d("CHARSEQ", charSequence.toString().toLowerCase());
+                try{
+                    if(repoModel.getName().toLowerCase().contains(charSequence.toString().toLowerCase())){
+                        filteredList.add(repoModel);
+                        Log.d("AUTHOR", repoModel.getAuthor().toLowerCase());
+                        Log.d("CHARSEQ", charSequence.toString().toLowerCase());
+                        Log.d("SIZE", ""+dataList.size());
+                    }
+                }catch (Exception e){
+                    Log.d("INSIDE", "ERROR");
                 }
-            }
 
+            }
             FilterResults filterResults = new FilterResults();
             filterResults.values = filteredList;
+
             return filterResults;
         }
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            Log.d("INSIDE", "RESUL");
             data.clear();
             data.addAll((Collection<? extends RepoModel>) filterResults.values);
             notifyDataSetChanged();
         }
+
     };
+
 
 
     public class ViewHolder extends RecyclerView.ViewHolder{

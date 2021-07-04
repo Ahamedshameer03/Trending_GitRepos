@@ -1,13 +1,16 @@
 package com.example.trending_github_repositories;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeRefreshLayout;
     List<RepoModel> data;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,28 +63,7 @@ public class MainActivity extends AppCompatActivity {
         imageUrl.setText("");
         username.setText("");*/
 
-        repoApi = RetrofitInstance.getRetrofit().create(RepoApi.class);
 
-        repoApi.getrepositories().enqueue(new Callback<List<RepoModel>>() {
-            @Override
-            public void onResponse(Call<List<RepoModel>> call, Response<List<RepoModel>> response) {
-                int size = response.body().size();
-                if(size > 0){
-                    Toast.makeText(MainActivity.this, "List is not Empty ", Toast.LENGTH_LONG).show();
-                    data = response.body();
-                    adapter = new ReposAdapter(MainActivity.this, data);
-                    recyclerView.setAdapter(adapter);
-                }
-                else{
-                    Toast.makeText(MainActivity.this, "List is Empty", Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<RepoModel>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "FAILED  "+t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
 
         /*Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)
@@ -120,37 +103,80 @@ public class MainActivity extends AppCompatActivity {
         });*/
         swipeRefreshLayout = findViewById(R.id.swipeLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onRefresh() {
-                init();
-                adapter.notifyDataSetChanged();
-                swipeRefreshLayout.setRefreshing(false);
+                if(!filtering){
+                    init();
+                    adapter.notifyDataSetChanged();
+                    swipeRefreshLayout.setRefreshing(false);
+                }else
+                    swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
-    private  void init(){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public  void init(){
+        Log.d("Inside", "INIT");
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
+        repoApi = RetrofitInstance.getRetrofit().create(RepoApi.class);
+
+        repoApi.getrepositories().enqueue(new Callback<List<RepoModel>>() {
+            @Override
+            public void onResponse(Call<List<RepoModel>> call, Response<List<RepoModel>> response) {
+                int size = response.body().size();
+                if(size > 0){
+                    Toast.makeText(MainActivity.this, "List is not Empty ", Toast.LENGTH_LONG).show();
+                    data = response.body();
+                    adapter = new ReposAdapter(MainActivity.this, data);
+                    recyclerView.setAdapter(adapter);
+                }
+                else{
+                    Toast.makeText(MainActivity.this, "List is Empty", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<RepoModel>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "FAILED  "+t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
+    boolean filtering = false;
+    SearchView searchView;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.main_menu, menu);
         MenuItem item = menu.findItem(R.id.searchAction);
-        SearchView searchView = (SearchView) item.getActionView();
+        searchView = (SearchView) item.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+                filtering = true;
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-
-                adapter = new ReposAdapter(MainActivity.this, data);
+                filtering = true;
                 adapter.getFilter().filter(s);
+
                 return false;
+            }
+
+        });
+
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                init();
+                filtering = false;
             }
         });
 
