@@ -1,7 +1,9 @@
 package com.example.trending_github_repositories;
 
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  implements  ReposAdapter.onclickListener{
     TextView author, name, description, language, stars, languageColor, imageUrl, username;
 
     ImageView avatar;
@@ -123,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     public  void init(){
+
         Log.d("Inside", "INIT");
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
@@ -136,8 +139,8 @@ public class MainActivity extends AppCompatActivity {
                 if(size > 0){
                     Toast.makeText(MainActivity.this, "List is not Empty ", Toast.LENGTH_LONG).show();
                     data = response.body();
-                    adapter = new ReposAdapter(MainActivity.this, data);
-                    recyclerView.setAdapter(adapter);
+                    setAdapter();
+
                 }
                 else{
                     Toast.makeText(MainActivity.this, "List is Empty", Toast.LENGTH_LONG).show();
@@ -150,6 +153,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void setAdapter() {
+            adapter = new ReposAdapter(MainActivity.this, data, this);
+            recyclerView.setAdapter(adapter);
     }
 
     boolean filtering = false;
@@ -200,5 +209,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         unregisterReceiver(networkListener);
         super.onStop();
+    }
+
+    @Override
+    public void onClick(int position) {
+        String url = data.get(position).getUrl();
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        (recyclerView.getContext()).startActivity(browserIntent);
+
     }
 }

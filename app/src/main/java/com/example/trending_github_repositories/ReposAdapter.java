@@ -27,17 +27,20 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
     List<RepoModel> data;
     List<RepoModel> dataList;
 
-    public ReposAdapter(Context context, List<RepoModel> data) {
+    private final onclickListener onclickListener;
+
+    public ReposAdapter(Context context, List<RepoModel> data, onclickListener onclickListener) {
         this.context = context;
         this.data = data;
         dataList = new ArrayList<>(this.data);
+        this.onclickListener = onclickListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.cards, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view, onclickListener);
         return viewHolder;
     }
 
@@ -67,6 +70,10 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
             Log.e("Error Getting Bitmap", e.getMessage());
         }
         holder.avatar.setImageBitmap(bitmap);*/
+    }
+
+    public interface onclickListener {
+        void onClick(int position);
     }
 
     @Override
@@ -115,12 +122,14 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
     };
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView author, name, description, language, stars, languageColor, imageUrl, username;
 
         ImageView avatarDp;
 
-        public ViewHolder(@NotNull View itemView) {
+        onclickListener onclickListener;
+
+        public ViewHolder(@NotNull View itemView, onclickListener onclickListener) {
 
             super(itemView);
             avatarDp = itemView.findViewById(R.id.avatarDp);
@@ -129,6 +138,14 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
             description = itemView.findViewById(R.id.description);
             language = itemView.findViewById(R.id.language);
             stars = itemView.findViewById(R.id.stars);
+            this.onclickListener = onclickListener;
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            onclickListener.onClick(getAdapterPosition());
         }
     }
 }
