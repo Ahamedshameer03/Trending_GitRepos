@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> implements Filterable{
+public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> implements Filterable {
 
     Context context;
     List<RepoModel> data;
@@ -47,7 +47,7 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
         holder.name.setText(data.get(position).getName());
         holder.language.setText(data.get(position).getLanguage());
         holder.description.setText(data.get(position).getDescription());
-        holder.stars.setText(""+data.get(position).getStars());
+        holder.stars.setText("" + data.get(position).getStars());
 
         Glide.with(context).load(data.get(position).avatar).into(holder.avatarDp);
 
@@ -85,15 +85,15 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
             Log.d("INSIDE", "PERF");
             List<RepoModel> filteredList = new ArrayList<RepoModel>();
 
-            for(RepoModel repoModel : dataList){
-                try{
-                    if(repoModel.getName().toLowerCase().contains(charSequence.toString().toLowerCase())){
+            for (RepoModel repoModel : dataList) {
+                try {
+                    if (repoModel.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
                         filteredList.add(repoModel);
-                        Log.d("AUTHOR", repoModel.getAuthor().toLowerCase());
+                        Log.d("NAME", repoModel.getName().toLowerCase());
                         Log.d("CHARSEQ", charSequence.toString().toLowerCase());
-                        Log.d("SIZE", ""+dataList.size());
+                        Log.d("SIZE", "" + dataList.size());
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     Log.d("INSIDE", "ERROR");
                 }
 
@@ -115,11 +115,11 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
     };
 
 
-
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView author, name, description, language, stars, languageColor, imageUrl, username;
 
         ImageView avatarDp;
+
         public ViewHolder(@NotNull View itemView) {
 
             super(itemView);

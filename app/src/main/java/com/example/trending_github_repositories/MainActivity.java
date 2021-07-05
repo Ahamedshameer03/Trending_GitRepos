@@ -1,5 +1,7 @@
 package com.example.trending_github_repositories;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,8 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.example.trending_github_repositories.utility.Network_Listener;
 
 import java.util.List;
 
@@ -34,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
     SwipeRefreshLayout swipeRefreshLayout;
     List<RepoModel> data;
+
+    Network_Listener networkListener = new Network_Listener();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -181,5 +187,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkListener);
+        super.onStop();
     }
 }

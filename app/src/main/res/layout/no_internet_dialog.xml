@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_marginTop="100sp"
+        android:layout_width="150sp"
+        android:layout_height="150sp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_baseline_portable_wifi_off_24">
+
+    </ImageView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="NO NETWORK !!!"
+        android:textColor="#652F2F"
+        android:textFontWeight="@android:integer/config_longAnimTime"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:fontFamily="sans-serif-black" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Internet Connectivity Required\nPlease Turn On Mobile data / Wifi"
+        android:textColor="#2C2424"
+        android:textFontWeight="@android:integer/config_mediumAnimTime"
+        android:textSize="15sp"
+        app:fontFamily="sans-serif-black"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_marginTop="60sp"
+        android:layout_marginBottom="100sp"
+        android:layout_width="200sp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#FA0165"
+        android:backgroundTintMode="add"
+        android:backgroundTint="@color/black"
+        android:text="RETRY"
+        android:textColor="@color/white"
+        android:textFontWeight="@android:integer/config_longAnimTime"
+
+        android:id="@+id/Retry_Button"/>
+
+
+
+</LinearLayout>
