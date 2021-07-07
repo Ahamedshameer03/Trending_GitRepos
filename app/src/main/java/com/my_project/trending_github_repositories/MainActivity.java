@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,12 +19,10 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.navigation.NavHostController;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.my_project.trending_github_repositories.utility.Network_Listener;
 
 import java.util.List;
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity  implements  ReposAdapter.on
     // Views - Declaration
     TextView author, name, description, language, stars, languageColor, imageUrl, username;
     ImageView avatar;
-    BottomNavigationView bottomNavigationView;
+    Button button;
 
 
     RecyclerView recyclerView;
@@ -59,11 +58,14 @@ public class MainActivity extends AppCompatActivity  implements  ReposAdapter.on
         Log.d("Inside", "Main");
         init();
 
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-        NavHostController navHostController = new NavHostController(this);
-
-
+        button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickButton();
+            }
+        });
 
 
         swipeRefreshLayout = findViewById(R.id.swipeLayout);
@@ -79,6 +81,11 @@ public class MainActivity extends AppCompatActivity  implements  ReposAdapter.on
                     swipeRefreshLayout.setRefreshing(false);
             }
         });
+    }
+
+    private void onClickButton(){
+        Intent intent = new Intent(this, LocalActivity.class);
+        startActivity(intent);
     }
 
     private void getAPIData() {
@@ -144,6 +151,7 @@ public class MainActivity extends AppCompatActivity  implements  ReposAdapter.on
     private void setAdapter() {
             adapter = new ReposAdapter(MainActivity.this, data, this);
             recyclerView.setAdapter(adapter);
+            onAddContent(data);
     }
 
     boolean filtering = false;
@@ -201,6 +209,5 @@ public class MainActivity extends AppCompatActivity  implements  ReposAdapter.on
         String url = data.get(position).getUrl();
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         (recyclerView.getContext()).startActivity(browserIntent);
-        onAddContent(data);
     }
 }

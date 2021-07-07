@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Trending_Github_Repositories">
-        <activity android:name="com.my_project.trending_github_repositories.MainActivity">
+        <activity android:name=".LocalActivity"></activity>
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,11 +22,10 @@
         </activity>
 
         <provider
-            android:authorities="com.my_project.trending_github_repositories"
             android:name=".RepoProvider"
+            android:authorities="com.my_project.trending_github_repositories"
             android:enabled="true"
-            android:exported="true">
-        </provider>
+            android:exported="true" />
     </application>
 
 </manifest>
