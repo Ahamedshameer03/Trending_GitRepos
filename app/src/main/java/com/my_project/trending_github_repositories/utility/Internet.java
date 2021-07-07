@@ -1,4 +1,4 @@
-package com.example.trending_github_repositories.utility;
+package com.my_project.trending_github_repositories.utility;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

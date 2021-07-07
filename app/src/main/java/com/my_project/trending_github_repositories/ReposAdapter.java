@@ -1,4 +1,4 @@
-package com.example.trending_github_repositories;
+package com.my_project.trending_github_repositories;
 
 import android.content.Context;
 import android.util.Log;
@@ -46,7 +46,7 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
-        holder.author.setText(data.get(position).getAuthor());
+        holder.author.setText(data.get(position).getAuthor().toUpperCase());
         holder.name.setText(data.get(position).getName());
         holder.language.setText(data.get(position).getLanguage());
         holder.description.setText(data.get(position).getDescription());
@@ -54,22 +54,6 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
 
         Glide.with(context).load(data.get(position).avatar).into(holder.avatarDp);
 
-        // Avatar
-        /*Bitmap bitmap = null;
-        try{
-            URL url = new URL(data.get(position).getImageUrl());
-            URLConnection conn = url.openConnection();
-            conn.connect();
-
-            InputStream inputStream = conn.getInputStream();
-            BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-            bitmap = BitmapFactory.decodeStream(bufferedInputStream);
-            bufferedInputStream.close();
-            inputStream.close();
-        }catch (IOException e){
-            Log.e("Error Getting Bitmap", e.getMessage());
-        }
-        holder.avatar.setImageBitmap(bitmap);*/
     }
 
     public interface onclickListener {

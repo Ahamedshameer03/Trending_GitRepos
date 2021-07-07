@@ -1,4 +1,4 @@
-package com.example.trending_github_repositories;
+package com.my_project.trending_github_repositories;
 
 public class BuiltBy {
     String href, avatar, username;

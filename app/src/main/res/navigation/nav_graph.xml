@@ -3,26 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/cloud_mode">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.example.trending_github_repositories.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:id="@+id/cloud_mode"
+        android:name="com.my_project.trending_github_repositories.CloudMode"
+        android:label="first_fragment_label"
+        tools:layout="@layout/cloud_mode">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            app:destination="@id/local_mode" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.example.trending_github_repositories.SecondFragment"
+        android:id="@+id/local_mode"
+        android:name="com.my_project.trending_github_repositories.LocalMode"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/local_mode">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            app:destination="@id/cloud_mode" />
     </fragment>
 </navigation>

@@ -16,18 +16,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="2sp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:id="@+id/linearLayout">
+    android:id="@+id/linearLayout"
+    android:layout_marginTop="10sp"
+    android:background="@color/material_on_background_disabled"
+    android:showDividers="end"
+    android:divider="@color/teal_700">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/black"
-        app:cardBackgroundColor="#E6CAF1"
-        app:cardElevation="5sp">
+        app:cardElevation="4sp"
+        app:cardCornerRadius="3sp"
+        android:layout_margin="2sp"
+        android:layoutAnimation="@anim/layout_animation">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,20 +43,29 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/avatarDp"
-                    android:layout_width="100sp"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
-                    android:src="@color/black">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="80sp"
+                    android:layout_height="80sp"
+                    android:paddingLeft="10sp"
+                    android:layout_gravity="center"
+                    app:cardCornerRadius="50sp"
+                    android:outlineSpotShadowColor="@color/black">
 
-                </ImageView>
-                // Pro pic
+                    <ImageView
+                        android:id="@+id/avatarDp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitCenter"
+                        android:src="@color/black">
+
+                    </ImageView>// Pro pic
+                </androidx.cardview.widget.CardView>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginLeft="15sp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -69,9 +82,11 @@
                             android:drawablePadding="10sp"
                             android:fontFamily="sans-serif-medium"
                             android:paddingLeft="10sp"
+                            android:paddingTop="10sp"
                             android:text="Author Name"
                             android:textColor="@color/cardview_dark_background"
-                            android:textSize="15sp">
+                            android:textSize="15sp"
+                            android:layout_weight="@integer/config_navAnimTime">
 
                         </TextView>//Author Name
 
@@ -90,9 +105,10 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
                             android:paddingLeft="15sp"
+                            android:paddingTop="10sp"
                             android:text="Repo Title"
-                            android:textColor="@color/black"
-                            android:textSize="15sp"
+                            android:textColor="#768AEA"
+                            android:textSize="17sp"
                             android:textStyle="bold">
 
                         </TextView>
@@ -111,11 +127,14 @@
                             android:id="@+id/description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:maxLength="30"
                             android:fontFamily="sans-serif-medium"
-                            android:paddingLeft="15sp"
+                            android:paddingLeft="30sp"
                             android:text="Repo Description"
                             android:textColor="@color/cardview_dark_background"
-                            android:textSize="15sp">
+                            android:textSize="13sp"
+                            android:elegantTextHeight="true"
+                            android:autoSizeTextType="uniform">
 
                         </TextView>
                         // Repo description
@@ -126,7 +145,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:paddingTop="10sp"
+                        android:paddingBottom="10sp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -157,6 +178,7 @@
                                 android:layout_weight="1"
                                 android:drawableRight="@drawable/star_icon"
                                 android:drawablePadding="5sp"
+                                android:layout_marginRight="20sp"
                                 android:fontFamily="sans-serif-medium"
                                 android:gravity="right"
                                 android:text="1000"

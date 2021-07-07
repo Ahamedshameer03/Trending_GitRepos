@@ -1,5 +1,6 @@
-package com.example.trending_github_repositories;
+package com.my_project.trending_github_repositories;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -17,11 +18,13 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.navigation.NavHostController;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.trending_github_repositories.utility.Network_Listener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.my_project.trending_github_repositories.utility.Network_Listener;
 
 import java.util.List;
 
@@ -30,9 +33,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity  implements  ReposAdapter.onclickListener{
-    TextView author, name, description, language, stars, languageColor, imageUrl, username;
 
+    // Views - Declaration
+    TextView author, name, description, language, stars, languageColor, imageUrl, username;
     ImageView avatar;
+    BottomNavigationView bottomNavigationView;
+
 
     RecyclerView recyclerView;
     ReposAdapter adapter;
@@ -46,69 +52,20 @@ public class MainActivity extends AppCompatActivity  implements  ReposAdapter.on
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getAPIData();
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Log.d("Inside", "Main");
-
         init();
 
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-       /* avatar = (ImageView) findViewById(R.id.avatar);
-
-        author = (TextView) findViewById(R.id.author);
-        name = (TextView) findViewById(R.id.name);
-        description = (TextView) findViewById(R.id.description);
-        language = (TextView) findViewById(R.id.language);
-        stars = (TextView) findViewById(R.id.stars);
-
-
-        author.setText("");
-        name.setText("");
-        description.setText("");
-        language.setText("");
-        stars.setText("");
-        languageColor.setText("");
-        imageUrl.setText("");
-        username.setText("");*/
+        NavHostController navHostController = new NavHostController(this);
 
 
 
-        /*Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        Log.d("Retrofit",retrofit.toString());
-        RepoApi api = retrofit.create(RepoApi.class);
 
-        Call<List<RepoModel>> call = api.getmodels();
-        call.enqueue(new Callback<List<RepoModel>>() {
-            @Override
-            public void onResponse(Call<List<RepoModel>> call, Response<List<RepoModel>> response) {
-                List<RepoModel> data = response.body();
-                int size = data.size();
-                Log.d("Size", " "+size);
-                String json = gson.toJson(data.get(0));
-                Log.d("JSON-Data", json);
-                if(size > 0)
-                    for(int i=0;i<size;i++){
-                        json = gson.toJson(data.get(i));
-                        Log.d("JSON-Data", json);
-                        author.append(data.get(i).getAuthor());
-                        imageUrl.append(data.get(i).getImageUrl());
-                        name.append(data.get(i).getName());
-                        description.append(data.get(i).getDescription());
-                        language.append(data.get(i).getLanguage());
-                        languageColor.append(data.get(i).getLanguageColor());
-                        stars.append(""+data.get(i).getStars());
-
-                    }
-            }
-
-            @Override
-            public void onFailure(Call<List<RepoModel>> call, Throwable t) {
-                Log.d("Failed", "final");
-            }
-        });*/
         swipeRefreshLayout = findViewById(R.id.swipeLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -123,13 +80,8 @@ public class MainActivity extends AppCompatActivity  implements  ReposAdapter.on
             }
         });
     }
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public  void init(){
 
-        Log.d("Inside", "INIT");
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-
+    private void getAPIData() {
         repoApi = RetrofitInstance.getRetrofit().create(RepoApi.class);
 
         repoApi.getrepositories().enqueue(new Callback<List<RepoModel>>() {
@@ -152,8 +104,41 @@ public class MainActivity extends AppCompatActivity  implements  ReposAdapter.on
                 Toast.makeText(MainActivity.this, "FAILED  "+t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
 
+    // Add to Database
+    ContentValues values = new ContentValues();
+    public void onAddContent(List<RepoModel> data) {
 
+        for(int i=0;i<data.size();i++){
+            values.put(RepoProvider.NAME_R, data.get(i).name);
+            values.put(RepoProvider.AUTHOR_R, data.get(i).author);
+            values.put(RepoProvider.AVATAR_R, data.get(i).avatar);
+            values.put(RepoProvider.DESCRIPTION_R, data.get(i).description);
+            values.put(RepoProvider.LANGUAGE_R, data.get(i).language);
+            values.put(RepoProvider.LANGUAGECOLR_R, data.get(i).languageColor);
+            values.put(RepoProvider.STARS_R, data.get(i).stars);
+            values.put(RepoProvider.FORKS_R, data.get(i).forks);
+            values.put(RepoProvider.CUR_PER_STARS_R, data.get(i).currentPeriodStars);
+            values.put(RepoProvider.URL_R, data.get(i).url);
+            values.put(RepoProvider.USERNAME_R, data.get(i).username);
+            values.put(RepoProvider.BUILTBY_R, String.valueOf(data.get(i).builtBy));
+
+            Uri uri = getContentResolver().insert(RepoProvider.CONTENT_URI_URL, values);
+            Toast.makeText(this,uri.toString(), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+    // Get from Database
+    public void onGetContent(View view) {
+
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public  void init(){
+
+        Log.d("Inside", "INIT");
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
     }
 
     private void setAdapter() {
@@ -216,6 +201,6 @@ public class MainActivity extends AppCompatActivity  implements  ReposAdapter.on
         String url = data.get(position).getUrl();
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         (recyclerView.getContext()).startActivity(browserIntent);
-
+        onAddContent(data);
     }
 }

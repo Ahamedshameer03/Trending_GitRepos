@@ -1,4 +1,4 @@
-package com.example.trending_github_repositories.utility;
+package com.my_project.trending_github_repositories.utility;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -12,7 +12,7 @@ import android.view.View;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatButton;
 
-import com.example.trending_github_repositories.R;
+import com.my_project.trending_github_repositories.R;
 
 public class Network_Listener extends BroadcastReceiver {
 

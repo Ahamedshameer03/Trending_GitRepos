@@ -1,8 +1,8 @@
-package com.example.trending_github_repositories;
+package com.my_project.trending_github_repositories;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
