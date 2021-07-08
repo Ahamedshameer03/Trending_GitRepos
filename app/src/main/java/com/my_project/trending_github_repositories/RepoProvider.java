@@ -11,7 +11,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,7 +38,6 @@ public class RepoProvider extends ContentProvider {
     }
 
     // DB Column
-    public static final String _ID = "_id";
     public static final String AUTHOR_R = "author";
     public static final String NAME_R = "name";
     public static final String AVATAR_R = "avatar";
@@ -60,14 +58,13 @@ public class RepoProvider extends ContentProvider {
 
     static final String CREATE_DB_TABLE =
             " CREATE TABLE " + REPOSITORIES_TABLE_NAME +
-                    " ("+_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    " "+NAME_R+" TEXT NOT NULL, " +
+                    " ( "+NAME_R+" TEXT NOT NULL, " +
                     " "+LANGUAGE_R+" TEXT NOT NULL, " +
                     " "+LANGUAGECOLR_R+" TEXT NOT NULL, " +
                     " "+AUTHOR_R+" TEXT NOT NULL, " +
                     " "+AVATAR_R+" TEXT NOT NULL, " +
                     " "+USERNAME_R+" TEXT NOT NULL, " +
-                    " "+URL_R+" TEXT NOT NULL, " +
+                    " "+URL_R+" TEXT PRIMARY KEY NOT NULL, " +
                     " "+BUILTBY_R+" TEXT NOT NULL, " +
                     " "+STARS_R+" INTEGER NOT NULL, " +
                     " "+FORKS_R+" INTEGER NOT NULL, " +
@@ -112,7 +109,7 @@ public class RepoProvider extends ContentProvider {
                     break;
 
                 case REPO_URL:
-                    qb.appendWhere( _ID + "=" + uri.getPathSegments().get(1));
+                    //qb.appendWhere( _ID + "=" + uri.getPathSegments().get(1));
                     break;
 
                 default:
@@ -151,8 +148,7 @@ public class RepoProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
-
-        long rowID = db.insert(	REPOSITORIES_TABLE_NAME, "", contentValues);
+        long rowID = db.replace(	REPOSITORIES_TABLE_NAME, "", contentValues);
 
         /**
          * If record is added successfully
@@ -162,8 +158,8 @@ public class RepoProvider extends ContentProvider {
             getContext().getContentResolver().notifyChange(_uri, null);
             return _uri;
         }
-
-        throw new SQLException("Failed to add a record into " + uri);
+        else
+            throw new SQLException("Failed to add a record into " + uri);
     }
 
     @Override
@@ -176,8 +172,8 @@ public class RepoProvider extends ContentProvider {
 
             case REPO_URL:
                 String id = uri.getPathSegments().get(1);
-                count = db.delete( REPOSITORIES_TABLE_NAME, _ID +  " = " + id +
-                                (!TextUtils.isEmpty(selection) ?" AND (" + selection + ')' : ""), selectionArgs);
+                //count = db.delete( REPOSITORIES_TABLE_NAME, _ID +  " = " + id +
+                                //(!TextUtils.isEmpty(selection) ?" AND (" + selection + ')' : ""), selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
@@ -196,9 +192,9 @@ public class RepoProvider extends ContentProvider {
                     break;
 
                 case REPO_URL:
-                    count = db.update(REPOSITORIES_TABLE_NAME, values,
+                    /*count = db.update(REPOSITORIES_TABLE_NAME, values,
                             _ID + " = " + uri.getPathSegments().get(1) +
-                                    (!TextUtils.isEmpty(selection) ? " AND (" +selection + ')' : ""), selectionArgs);
+                                    (!TextUtils.isEmpty(selection) ? " AND (" +selection + ')' : ""), selectionArgs);*/
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown URI " + uri );

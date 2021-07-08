@@ -132,7 +132,6 @@ public class MainActivity extends AppCompatActivity  implements  ReposAdapter.on
             values.put(RepoProvider.BUILTBY_R, String.valueOf(data.get(i).builtBy));
 
             Uri uri = getContentResolver().insert(RepoProvider.CONTENT_URI_URL, values);
-            Toast.makeText(this,uri.toString(), Toast.LENGTH_SHORT).show();
         }
 
     }

@@ -33,22 +33,22 @@ public class LocalActivity extends AppCompatActivity implements ReposAdapter.onc
     private void getData() {
 
         data = new ArrayList<RepoModel>();
-        Cursor cursor = getContentResolver().query(RepoProvider.CONTENT_URI_LIST, null, null, null, "_id");
+        Cursor cursor = getContentResolver().query(RepoProvider.CONTENT_URI_LIST, null, null, null, null);
 
         while(cursor.moveToNext()){
             RepoModel repomodel = new RepoModel();
 
-            repomodel.name = cursor.getString(1);
-            repomodel.language = cursor.getString(2);
-            repomodel.languageColor = cursor.getString(3);
-            repomodel.author = cursor.getString(4);
-            repomodel.avatar = cursor.getString(5);
-            repomodel.username = cursor.getString(6);
-            repomodel.url = cursor.getString(7);
-            repomodel.stars = Integer.parseInt(cursor.getString(9));
-            repomodel.forks = Integer.parseInt(cursor.getString(10));
-            repomodel.currentPeriodStars = Integer.parseInt(cursor.getString(11));
-            repomodel.description = cursor.getString(12);
+            repomodel.name = cursor.getString(0);
+            repomodel.language = cursor.getString(1);
+            repomodel.languageColor = cursor.getString(2);
+            repomodel.author = cursor.getString(3);
+            repomodel.avatar = cursor.getString(4);
+            repomodel.username = cursor.getString(5);
+            repomodel.url = cursor.getString(6);
+            repomodel.stars = Integer.parseInt(cursor.getString(8));
+            repomodel.forks = Integer.parseInt(cursor.getString(9));
+            repomodel.currentPeriodStars = Integer.parseInt(cursor.getString(10));
+            repomodel.description = cursor.getString(11);
 
             data.add(repomodel);
         }
