@@ -3,9 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    <item android:id="@+id/searchAction"
+    <item android:id="@+id/search_menu"
         android:title="Search"
         android:icon="@drawable/search_icon"
         app:showAsAction="always|collapseActionView"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
+    <item android:id="@+id/local_menu"
+        android:title="Local"
+        android:icon="@drawable/local_icon"
+        app:showAsAction="always|collapseActionView"/>
+
 </menu>

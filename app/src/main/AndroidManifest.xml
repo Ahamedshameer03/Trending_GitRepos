@@ -11,14 +11,17 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Trending_Github_Repositories">
-        <activity android:name=".LocalActivity"></activity>
-        <activity android:name=".MainActivity">
+        android:theme="@style/splashScreenTheme">
+
+        <activity android:name=".LocalActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".CloudActivity">
+
         </activity>
 
         <provider
@@ -26,6 +29,9 @@
             android:authorities="com.my_project.trending_github_repositories"
             android:enabled="true"
             android:exported="true" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

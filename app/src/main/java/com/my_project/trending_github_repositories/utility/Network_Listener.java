@@ -29,8 +29,8 @@ public class Network_Listener extends BroadcastReceiver {
             dialog.setCancelable(false);
             dialog.getWindow().setGravity(Gravity.CENTER);
 
-            AppCompatButton button = view.findViewById(R.id.Retry_Button);
-            button.setOnClickListener(new View.OnClickListener() {
+            AppCompatButton button_retry = view.findViewById(R.id.Retry_Button);
+            button_retry.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     dialog.dismiss();
@@ -38,6 +38,15 @@ public class Network_Listener extends BroadcastReceiver {
 
                 }
             });
+
+            AppCompatButton button_back = view.findViewById(R.id.Back_Button);
+            button_back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+
         }
     }
 }

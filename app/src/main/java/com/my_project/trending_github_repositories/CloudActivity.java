@@ -11,18 +11,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.my_project.trending_github_repositories.utility.Network_Listener;
 
 import java.util.List;
@@ -31,17 +30,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity  implements  ReposAdapter.onclickListener{
-
-    // Views - Declaration
-    TextView author, name, description, language, stars, languageColor, imageUrl, username;
-    ImageView avatar;
-    Button button;
-
+public class CloudActivity extends AppCompatActivity  implements  ReposAdapter.onclickListener{
 
     RecyclerView recyclerView;
     ReposAdapter adapter;
     RepoApi repoApi;
+
+    ShimmerFrameLayout shimmerFrameLayout;
 
     SwipeRefreshLayout swipeRefreshLayout;
     List<RepoModel> data;
@@ -51,21 +46,19 @@ public class MainActivity extends AppCompatActivity  implements  ReposAdapter.on
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.Theme_Trending_Github_Repositories);
         getAPIData();
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_cloud);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Repositories");
+        actionBar.setSubtitle("Cloud");
+
+        shimmerFrameLayout = (ShimmerFrameLayout) findViewById(R.id.shimmerView);
         Log.d("Inside", "Main");
         init();
-
-
-        button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onClickButton();
-            }
-        });
 
 
         swipeRefreshLayout = findViewById(R.id.swipeLayout);
@@ -73,19 +66,20 @@ public class MainActivity extends AppCompatActivity  implements  ReposAdapter.on
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onRefresh() {
-                if(!filtering){
-                    init();
-                    adapter.notifyDataSetChanged();
+                if(recyclerView.getVisibility() == View.GONE &&
+                        ConnectivityManager.CONNECTIVITY_ACTION == ConnectivityManager.EXTRA_NO_CONNECTIVITY){
                     swipeRefreshLayout.setRefreshing(false);
-                }else
-                    swipeRefreshLayout.setRefreshing(false);
+                }
+                else{
+                    if(!filtering){
+                        init();
+                        adapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }else
+                        swipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
-    }
-
-    private void onClickButton(){
-        Intent intent = new Intent(this, LocalActivity.class);
-        startActivity(intent);
     }
 
     private void getAPIData() {
@@ -96,19 +90,19 @@ public class MainActivity extends AppCompatActivity  implements  ReposAdapter.on
             public void onResponse(Call<List<RepoModel>> call, Response<List<RepoModel>> response) {
                 int size = response.body().size();
                 if(size > 0){
-                    Toast.makeText(MainActivity.this, "List is not Empty ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(CloudActivity.this, "List is not Empty ", Toast.LENGTH_LONG).show();
                     data = response.body();
                     setAdapter();
 
                 }
                 else{
-                    Toast.makeText(MainActivity.this, "List is Empty", Toast.LENGTH_LONG).show();
+                    Toast.makeText(CloudActivity.this, "List is Empty", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<RepoModel>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "FAILED  "+t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(CloudActivity.this, "FAILED  "+t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -144,13 +138,20 @@ public class MainActivity extends AppCompatActivity  implements  ReposAdapter.on
 
         Log.d("Inside", "INIT");
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(CloudActivity.this));
     }
 
     private void setAdapter() {
-            adapter = new ReposAdapter(MainActivity.this, data, this);
-            recyclerView.setAdapter(adapter);
-            onAddContent(data);
+        shimmerFrameLayout.stopShimmer();
+        shimmerFrameLayout.hideShimmer();
+        shimmerFrameLayout.setVisibility(View.GONE);
+
+        //recyclerView.setLayoutManager(new LinearLayoutManager(HomeActivity.this));
+        Log.d("DATA_S", ""+data.size());
+        recyclerView.setVisibility(View.VISIBLE);
+        adapter = new ReposAdapter(CloudActivity.this, data, this);
+        recyclerView.setAdapter(adapter);
+        onAddContent(data);
     }
 
     boolean filtering = false;
@@ -158,9 +159,9 @@ public class MainActivity extends AppCompatActivity  implements  ReposAdapter.on
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        MenuItem item = menu.findItem(R.id.searchAction);
-        searchView = (SearchView) item.getActionView();
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        MenuItem searchMenu = menu.findItem(R.id.search_menu);
+        searchView = (SearchView) searchMenu.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -187,7 +188,23 @@ public class MainActivity extends AppCompatActivity  implements  ReposAdapter.on
             }
         });
 
+        // Local Mode Menu Item
+        MenuItem localMode = menu.findItem(R.id.local_menu);
+        localMode.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                gotoLocal();
+                return false;
+            }
+        });
+
+
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public void gotoLocal() {
+        Intent intent = new Intent(this, LocalActivity.class);
+        startActivity(intent);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.my_project.trending_github_repositories;
 
 import android.content.Context;
+import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,10 +45,18 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
         return viewHolder;
     }
 
+    private String toUpper(String str){
+        String firstLetter = str.substring(0,1);
+        String remLetters = str.substring(1);
+        str = firstLetter.toUpperCase() + remLetters;
+        Log.d("STRING", str);
+        return str;
+    }
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
-        holder.author.setText(data.get(position).getAuthor().toUpperCase());
-        holder.name.setText(data.get(position).getName());
+
+        holder.author.setText(toUpper(data.get(position).getAuthor()));
+        holder.name.setText(toUpper(data.get(position).getName()));
         holder.language.setText(data.get(position).getLanguage());
         holder.description.setText(data.get(position).getDescription());
         holder.stars.setText("" + data.get(position).getStars());
@@ -110,6 +119,7 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
         TextView author, name, description, language, stars, languageColor, imageUrl, username;
 
         ImageView avatarDp;
+        Image image;
 
         onclickListener onclickListener;
 

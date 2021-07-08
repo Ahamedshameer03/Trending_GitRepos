@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
 
     <ImageView
-        android:layout_marginTop="100sp"
+        android:layout_marginTop="30sp"
         android:layout_width="150sp"
         android:layout_height="150sp"
         android:layout_gravity="center"
@@ -37,7 +38,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_marginTop="60sp"
-        android:layout_marginBottom="100sp"
+        android:layout_marginBottom="30sp"
         android:layout_width="200sp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -50,6 +51,17 @@
 
         android:id="@+id/Retry_Button"/>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="30sp"
+        android:layout_marginBottom="30sp"
+        android:layout_gravity="center"
+        android:background="#FA0165"
+        android:backgroundTintMode="screen"
+        android:backgroundTint="@color/black"
+        android:text="Back"
+        android:textColor="@color/white"
+        android:textFontWeight="@android:integer/config_longAnimTime"
 
-
+        android:id="@+id/Back_Button"/>
 </LinearLayout>

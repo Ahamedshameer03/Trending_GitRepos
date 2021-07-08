@@ -14,10 +14,14 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.Trending_Github_Repositories.NoActionBar">
+    <style name="splashScreenTheme" parent="Theme.MaterialComponents.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/app_background</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/black</item>
     </style>
+
+
 
     <style name="Theme.Trending_Github_Repositories.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
